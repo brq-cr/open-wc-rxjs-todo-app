@@ -1,1 +1,1 @@
-import './my-app.js';
+import './rx-todo-app.js';

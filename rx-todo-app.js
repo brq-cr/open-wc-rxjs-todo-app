@@ -1,20 +1,24 @@
 import { LitElement, html, css } from 'lit-element';
 import { BehaviorSubject, Subject, combineLatest } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { openWc } from './open-wc';
 
-
-class MyApp extends LitElement {
+class RxTodoApp extends LitElement {
   elementDisconnect$ = new Subject();
-  text$ = new BehaviorSubject('holis');
+  todos$ = new BehaviorSubject([]);
+  currentTodoIndex$ = new BehaviorSubject(null);
 
-  get text() {
-    return this.text$.getValue();
+  get todos() {
+    return this.todos$.getValue();
+  }
+
+  get currentTodoIndex() {
+    return this.currentTodoIndex$.getValue();
   }
 
   connectedCallback() {
     combineLatest(
-      this.text$
+      this.todos$,
+      this.currentTodoIndex$,
     ).pipe(
       takeUntil(this.elementDisconnect$),
     ).subscribe(() => this.requestUpdate());
@@ -30,20 +34,23 @@ class MyApp extends LitElement {
   render() {
     return html`
     <div>
-      ${this.text}
+      <ul>
+        ${this.todos.map(todo => html`
+          <li>${todo}</li>
+        `)}
+      </ul>
       <button 
         type="button" 
-        @click="${e => this.updateMessage(e) }">
-          Cambiar texto
+        @click="${e => this.addTodo(e) }">
+          Add Todo
       </button>
     </div>`;
   }
 
-  updateMessage(e) {
+  addTodo(e) {
     e.preventDefault();
-    console.log(e);
-    this.text$.next('algo mas');
+    this.todos$.next(this.todos.concat([1]));
   }
 }
 
-customElements.define('my-app', MyApp);
+customElements.define('rx-todo-app', RxTodoApp);
