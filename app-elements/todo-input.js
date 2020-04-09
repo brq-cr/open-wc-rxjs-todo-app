@@ -12,7 +12,7 @@ export class TodoInput extends LitElement {
 
   render() {
     return html`
-      <form @submit="${this.onFormSubmit.bind(this)}">
+      <form @submit="${e => this.onFormSubmit(e)}">
         <input
           id="todo-input"
           .value="${this.currentTodo ? this.currentTodo.text : ''}"
