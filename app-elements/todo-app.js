@@ -52,7 +52,7 @@ class RxTodoApp extends LitElement {
 
   onSaveTodo(e) {
     const text = e.detail.value;
-    if(this.currentTodoId) {
+    if (this.currentTodoId) {
       this._updateTodo(this.currentTodoId, text);
     } else {
       this._createTodo(text);

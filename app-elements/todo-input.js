@@ -28,14 +28,16 @@ export class TodoInput extends LitElement {
   onFormSubmit(e) {
     e.preventDefault();
     const todoInput = this.shadowRoot.getElementById('todo-input');
-    this.dispatchEvent(
+    if (todoInput.value && todoInput.value !== '') {
+      this.dispatchEvent(
       new CustomEvent('saveTodo', {
-        detail: { 
-          value: todoInput.value 
-        }
-      })
-    );
-    todoInput.value = '';
+          detail: { 
+            value: todoInput.value 
+          }
+        })
+      );
+      todoInput.value = '';
+    }
   }
 
 }
